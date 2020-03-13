@@ -4,6 +4,7 @@ from util.punctuation_cleaner import cleanPunctuation
 
 
 def having(bot, update):
+    update.effective_message.reply_text('having function started')
     msg = update.effective_message.text
     words = cleanPunctuation(msg).split()
     idx = 0
@@ -23,15 +24,18 @@ def having(bot, update):
 
     words = words[idx:]
 
-    for i in enumerate(words):
-        if words[i] == u"אין":
-            words[i] = u"יש"
-        elif words[i] == u"יש":
-            words[i] = u"אין"
-        elif words[i] == u"לי":
-            words[i] = u"לך"
-        elif words[i] == u"לך":
-            words[i] = u"לי"
+    try:
+        for i in enumerate(words):
+            if words[i] == u"אין":
+                words[i] = u"יש"
+            elif words[i] == u"יש":
+                words[i] = u"אין"
+            elif words[i] == u"לי":
+                words[i] = u"לך"
+            elif words[i] == u"לך":
+                words[i] = u"לי"
+    except Exception as e:
+        print('oops: ' + e)
 
     update.effective_message.reply_text('done reversing')
     update.effective_message.reply_text(' '.join(words))
