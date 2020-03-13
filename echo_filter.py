@@ -24,9 +24,9 @@ def having(bot, update):
 
     words = words[idx:]
 
-    try:
+    try:  # DEBUG
         for i in enumerate(words):
-            pdate.effective_message.reply_text(words[i])  # DEBUG
+            update.effective_message.reply_text(words[i])  # DEBUG
             if words[i] == u"אין":
                 words[i] = u"יש"
             elif words[i] == u"יש":
@@ -35,8 +35,8 @@ def having(bot, update):
                 words[i] = u"לך"
             elif words[i] == u"לך":
                 words[i] = u"לי"
-    except Exception as e:
-        print('oops: ' + e)
+    except Exception as e:  # DEBUG
+        update.effective_message.reply_text('oops: ' + e)  # DEBUG
 
     update.effective_message.reply_text('done reversing')
     update.effective_message.reply_text(' '.join(words))
