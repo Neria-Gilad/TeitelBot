@@ -1,12 +1,18 @@
-def havingAction(words, update):
-    for i, _ in enumerate(words):
-        if words[i] == u"אין":
-            words[i] = u"יש"
-        elif words[i] == u"יש":
-            words[i] = u"אין"
-        elif words[i] == u"לי":
-            words[i] = u"לך"
-        elif words[i] == u"לך":
-            words[i] = u"לי"
+def having_action(words, update):
+    map_object_replace = {
+        'אין': 'יש',
+        'יש': 'אין',
+        'לי': 'לך',
+        'לך': 'לי',
+    }
 
-    update.effective_message.reply_text(' '.join(words))
+    replaced_words = [
+        w if w not in map_object_replace.keys()
+        else map_object_replace[w]
+        for w
+        in words
+    ]
+
+    text = ' '.join(replaced_words)
+
+    update.effective_message.reply_text(text)
