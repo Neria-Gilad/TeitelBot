@@ -3,7 +3,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from echo_filter import echo_filter
 
-
+import startup
 import config
 
 
@@ -34,12 +34,16 @@ if __name__ == "__main__":
     dp.add_handler(MessageHandler(Filters.text, echo))
     dp.add_error_handler(error)
 
-    # Start the web-hook
-    updater.start_webhook(listen="0.0.0.0",
-                          port=int(config.PORT),
-                          url_path=config.TOKEN)
-    updater.bot.setWebhook(
-        f"https://{config.NAME}.herokuapp.com/{config.TOKEN}")
+    if config.IS_RUN_REMOTE:
+        # Start the web-hook
+        updater.start_webhook(listen="0.0.0.0",
+                              port=int(config.PORT),
+                              url_path=config.TOKEN)
+        updater.bot.setWebhook(
+            f"https://{config.NAME}.herokuapp.com/{config.TOKEN}")
+    else:
+        updater.start_polling()
+
     updater.idle()
 
 # from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
