@@ -1,9 +1,14 @@
 from util.punctuation_cleaner import cleanPunctuation
+from echo_functions import *
 
-# TODO split into files and clean up this file
+
+def default_action(bot, update):
+    update.effective_message.reply_text('אין לי מה להגיד על זה')
 
 
-def having(bot, update):
+# checks if the question is about (not) having something or something (not) existing
+# answers a 'not true' statement based on the question
+def havingFilter(bot, update):
     msg = update.effective_message.text
     words = cleanPunctuation(msg).split()
     idx = 0
@@ -17,29 +22,23 @@ def having(bot, update):
     if idx == len(words):
         return False
 
+    # the reply starts from where the *actual* question starts
     words = words[idx:]
 
-    for i, _ in enumerate(words):
-        if words[i] == u"אין":
-            words[i] = u"יש"
-        elif words[i] == u"יש":
-            words[i] = u"אין"
-        elif words[i] == u"לי":
-            words[i] = u"לך"
-        elif words[i] == u"לך":
-            words[i] = u"לי"
-
-    update.effective_message.reply_text(' '.join(words))
+    havingAction(words, update)
     return True
 
 
-filter_list = [having]
+# add any filter to this list.
+# filters always recieve bot,update as arguments
+# filters must either return False, or finish the job and return true
+# they can send to another filter and return what that filter returned
+filter_list = [
+    havingFilter
+]
 
 
-def default_action(bot, update):
-    update.effective_message.reply_text(update.effective_message.text + 'v2')
-
-
+# just calls all the filters
 def echo_filter(bot, update):
     for filter in filter_list:
         if filter(bot, update):
