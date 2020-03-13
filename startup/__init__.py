@@ -1,3 +1,5 @@
 import startup.log
 
-startup.log.init()
+
+def init():
+    startup.log.init()

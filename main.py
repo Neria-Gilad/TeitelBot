@@ -17,30 +17,33 @@ def echo(bot, update):
 
 
 def error(bot, update, err):
+    logger = logging.getLogger(__name__)
     logger.warning('Update "%s" caused error "%s"', update, err)
 
 
-if __name__ == "__main__":
-    # Enable logging
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        level=logging.INFO)
-    logger = logging.getLogger(__name__)
+def start_web_hook(update):
+    update.start_webhook(listen="0.0.0.0",
+                         port=int(config.PORT),
+                         url_path=config.TOKEN)
+    update.bot.setWebhook(
+        f"https://{config.NAME}.herokuapp.com/{config.TOKEN}")
 
-    # Set up the Updater
+
+def add_handlers(dispatcher):
+    dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(MessageHandler(Filters.text, echo))
+    dispatcher.add_error_handler(error)
+
+
+if __name__ == "__main__":
+    startup.init()
+
     updater = Updater(config.TOKEN)
-    dp = updater.dispatcher
-    # Add handlers
-    dp.add_handler(CommandHandler('start', start))
-    dp.add_handler(MessageHandler(Filters.text, echo))
-    dp.add_error_handler(error)
+
+    add_handlers(updater.dispatcher)
 
     if config.IS_RUN_REMOTE:
-        # Start the web-hook
-        updater.start_webhook(listen="0.0.0.0",
-                              port=int(config.PORT),
-                              url_path=config.TOKEN)
-        updater.bot.setWebhook(
-            f"https://{config.NAME}.herokuapp.com/{config.TOKEN}")
+        start_web_hook(updater)
     else:
         updater.start_polling()
 
