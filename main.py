@@ -1,6 +1,8 @@
 import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from echo_filter import echo_filter
+
 
 import config
 
@@ -10,7 +12,8 @@ def start(bot, update):
 
 
 def echo(bot, update):
-    update.effective_message.reply_text(update.effective_message.text)
+    # update.effective_message.reply_text(update.effective_message.text)
+    echo_filter(bot, update)
 
 
 def error(bot, update, err):
@@ -35,7 +38,8 @@ if __name__ == "__main__":
     updater.start_webhook(listen="0.0.0.0",
                           port=int(config.PORT),
                           url_path=config.TOKEN)
-    updater.bot.setWebhook(f"https://{config.NAME}.herokuapp.com/{config.TOKEN}")
+    updater.bot.setWebhook(
+        f"https://{config.NAME}.herokuapp.com/{config.TOKEN}")
     updater.idle()
 
 # from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
