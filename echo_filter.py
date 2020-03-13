@@ -26,6 +26,7 @@ def having(bot, update):
 
     try:
         for i in enumerate(words):
+            print(words[i])  # DEBUG
             if words[i] == u"אין":
                 words[i] = u"יש"
             elif words[i] == u"יש":
