@@ -15,6 +15,7 @@ def first_index(lst, array_of_objects):
             pass
     if min_index == len(lst) + 1:
         raise ValueError('substrings not found')
+    return min_index
 
 
 # checks if the question is about (not) having something or something (not) existing
