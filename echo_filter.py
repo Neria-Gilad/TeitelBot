@@ -25,6 +25,8 @@ def having(bot, update):
     words = words[idx:]
 
     try:  # DEBUG
+        update.effective_message.reply_text(
+            'started loop with ' + ' '.join(words))
         for i in enumerate(words):
             update.effective_message.reply_text(words[i])  # DEBUG
             if words[i] == u"אין":
@@ -47,7 +49,7 @@ filter_list = [having]
 
 
 def default_action(bot, update):
-    update.effective_message.reply_text(update.effective_message.text)
+    update.effective_message.reply_text(update.effective_message.text + 'v2')
 
 
 def echo_filter(bot, update):
