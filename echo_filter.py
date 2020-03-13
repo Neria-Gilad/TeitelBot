@@ -8,6 +8,8 @@ def having(bot, update):
     words = cleanPunctuation(msg).split()
     idx = 0
 
+    update.effective_message.reply_text('after clean punc '+' '.join(words))
+
     for w in words:
         if w == u"יש" or w == u"אין":
             break
@@ -16,6 +18,9 @@ def having(bot, update):
 
     if idx == len(words):
         return False
+
+    update.effective_message.reply_text('found domething to reverse')
+
     words = words[idx:]
 
     for i in enumerate(words):
@@ -28,6 +33,7 @@ def having(bot, update):
         elif words[i] == u"לך":
             words[i] = u"לי"
 
+    update.effective_message.reply_text('done reversing')
     update.effective_message.reply_text(' '.join(words))
     return True
 
