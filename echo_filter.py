@@ -4,6 +4,7 @@ from util.punctuation_cleaner import cleanPunctuation
 
 
 def having(bot, update):
+    update.effective_message.reply_text('having function started')
     msg = update.effective_message.text
     words = cleanPunctuation(msg).split()
     idx = 0
