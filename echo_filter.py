@@ -4,12 +4,9 @@ from util.punctuation_cleaner import cleanPunctuation
 
 
 def having(bot, update):
-    update.effective_message.reply_text('having function started')
     msg = update.effective_message.text
     words = cleanPunctuation(msg).split()
     idx = 0
-
-    update.effective_message.reply_text('after clean punc '+' '.join(words))
 
     for w in words:
         if w == u"יש" or w == u"אין":
@@ -20,27 +17,18 @@ def having(bot, update):
     if idx == len(words):
         return False
 
-    update.effective_message.reply_text('found domething to reverse')
-
     words = words[idx:]
 
-    try:  # DEBUG
-        update.effective_message.reply_text(
-            'started loop with ' + ' '.join(words))
-        for i in enumerate(words):
-            update.effective_message.reply_text(words[i])  # DEBUG
-            if words[i] == u"אין":
-                words[i] = u"יש"
-            elif words[i] == u"יש":
-                words[i] = u"אין"
-            elif words[i] == u"לי":
-                words[i] = u"לך"
-            elif words[i] == u"לך":
-                words[i] = u"לי"
-    except Exception as e:  # DEBUG
-        update.effective_message.reply_text('oops: ' + e)  # DEBUG
+    for i, _ in enumerate(words):
+        if words[i] == u"אין":
+            words[i] = u"יש"
+        elif words[i] == u"יש":
+            words[i] = u"אין"
+        elif words[i] == u"לי":
+            words[i] = u"לך"
+        elif words[i] == u"לך":
+            words[i] = u"לי"
 
-    update.effective_message.reply_text('done reversing')
     update.effective_message.reply_text(' '.join(words))
     return True
 
@@ -50,7 +38,6 @@ filter_list = [having]
 
 def default_action(bot, update):
     update.effective_message.reply_text(update.effective_message.text + 'v2')
-
 
 
 def echo_filter(bot, update):
