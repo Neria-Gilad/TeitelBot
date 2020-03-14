@@ -1,7 +1,7 @@
-import string
+from string import punctuation
 
 
-def cleanPunctuation(str):
-    for p in string.punctuation:
-        str = str.replace(p, "")
-    return str
+def punctuation_cleaner(string: str):
+    for p in punctuation:
+        string = string.replace(p, "")
+    return string

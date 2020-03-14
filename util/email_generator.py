@@ -1,19 +1,13 @@
-from string import punctuation
-
 import googletrans
+
+from util.punctuation_cleaner import punctuation_cleaner
 
 translator = googletrans.Translator()
 
 
-def clean_punctuation(string: str):
-    for p in punctuation:
-        string = string.replace(p, "")
-    return string
-
-
 def get_translated_name(name: str):
     raw = translator.translate(name, src='iw', dest='en').text
-    cleaned = clean_punctuation(raw.lower().replace(' ', ''))
+    cleaned = punctuation_cleaner(raw.lower().replace(' ', ''))
     return cleaned
 
 
