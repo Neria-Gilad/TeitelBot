@@ -1,9 +1,14 @@
+from random import random
+
+from util.generic_response_generator import generic_negative_response
 from util.string_utils import punctuation_cleaner, first_index_of_any
 from echo_functions import having_action
 
 
 def default_action(bot, update):
-    update.effective_message.reply_text('אין לי מה להגיד על זה')
+    chance_of_random_response = 1.0
+    if random() <= chance_of_random_response:
+        update.effective_message.reply_text(generic_negative_response())
 
 
 # checks if the question is about (not) having something or something (not) existing
