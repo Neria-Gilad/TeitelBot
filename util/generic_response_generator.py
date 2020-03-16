@@ -2,6 +2,9 @@ from random import choice
 
 generic_answers = [
     u"אני לא מאמין ששאלת את זה",
+    u"\U0001F914",
+    u"\U0001F926",
+    u"מה הכוונה?",
 
 ]
 
