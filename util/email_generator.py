@@ -1,6 +1,5 @@
 import googletrans
-
-from util.punctuation_cleaner import punctuation_cleaner
+from util.string_utils import punctuation_cleaner
 
 translator = googletrans.Translator()
 
