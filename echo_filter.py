@@ -1,21 +1,9 @@
-from util.punctuation_cleaner import punctuation_cleaner
+from util.string_utils import punctuation_cleaner, first_index_of_any
 from echo_functions import having_action
 
 
 def default_action(bot, update):
     update.effective_message.reply_text('אין לי מה להגיד על זה')
-
-
-def first_index(lst, array_of_objects):
-    min_index = len(lst) + 1  # out of index
-    for obj in array_of_objects:
-        try:
-            min_index = min(min_index, lst.index(obj))
-        except ValueError:
-            pass
-    if min_index == len(lst) + 1:
-        raise ValueError('substrings not found')
-    return min_index
 
 
 # checks if the question is about (not) having something or something (not) existing
@@ -25,7 +13,7 @@ def having_filter(bot, update) -> bool:
     words = punctuation_cleaner(msg).split()
 
     try:
-        index = first_index(words, ['יש', 'אין'])
+        index = first_index_of_any(words, ['יש', 'אין'])
     except ValueError:
         return False
 

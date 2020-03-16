@@ -1,3 +1,7 @@
+from util.string_utils import replace_words
+
+
+# responds with the opposite of the question in terms of (not) having something
 def having_action(words, update):
     map_object_replace = {
         'אין': 'יש',
@@ -6,13 +10,7 @@ def having_action(words, update):
         'לך': 'לי',
     }
 
-    replaced_words = [
-        w if w not in map_object_replace.keys()
-        else map_object_replace[w]
-        for w
-        in words
-    ]
-
+    replaced_words = replace_words(words, map_object_replace)
     text = ' '.join(replaced_words)
 
     update.effective_message.reply_text(text)
