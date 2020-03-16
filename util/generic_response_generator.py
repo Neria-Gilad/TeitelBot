@@ -2,9 +2,12 @@ from random import choice
 
 generic_answers = [
     u"אני לא מאמין ששאלת את זה",
-    u"\U0001F914",
-    u"\U0001F926",
+    u"\U0001F914",  # thinking emoji
+    u"\U0001F926",  # facepalm emoji
     u"מה הכוונה?",
+    u"אולי",
+    u"זה מסווג",
+    u"למה זה חשוב פתאום?",
 
 ]
 
