@@ -1,9 +1,14 @@
+from random import random
+
+from util.generic_response_generator import generic_negative_response, generic_answer
 from util.string_utils import punctuation_cleaner, first_index_of_any
 from echo_functions import having_action
 
 
 def default_action(bot, update):
-    update.effective_message.reply_text('אין לי מה להגיד על זה')
+    chance_of_random_response = 1.0
+    if random() <= chance_of_random_response:
+        update.effective_message.reply_text(generic_negative_response())
 
 
 # checks if the question is about (not) having something or something (not) existing
@@ -24,12 +29,22 @@ def having_filter(bot, update) -> bool:
     return True
 
 
+def generic_question(bot, update) -> bool:
+    if "?" in update.effective_message.text:
+        chance_of_random_response = 1.0
+        if random() <= chance_of_random_response:
+            update.effective_message.reply_text(generic_answer())
+            return True
+    return False
+
+
 # add any filter to this list.
-# filters always recieve bot,update as arguments
+# filters always receive bot,update as arguments
 # filters must either return False, or finish the job and return true
 # they can send to another filter and return what that filter returned
 filter_list = [
-    having_filter
+    having_filter,
+    generic_question,
 ]
 
 
