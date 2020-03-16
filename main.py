@@ -2,6 +2,7 @@ import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from echo_filter import echo_filter
+from reply_filter import reply_filter
 
 import startup
 import config
@@ -9,11 +10,6 @@ import config
 
 def start(bot, update):
     update.effective_message.reply_text("Hi!")
-
-
-def echo(bot, update):
-    # update.effective_message.reply_text(update.effective_message.text)
-    echo_filter(bot, update)
 
 
 def error(bot, update, err):
@@ -31,7 +27,8 @@ def start_web_hook(update):
 
 def add_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(MessageHandler(Filters.text, echo))
+    dispatcher.add_handler(MessageHandler(Filters.reply, reply_filter))
+    dispatcher.add_handler(MessageHandler(Filters.text, echo_filter))
     dispatcher.add_error_handler(error)
 
 
