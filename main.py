@@ -8,11 +8,11 @@ import startup
 import config
 
 
-def start(bot, update):
-    update.effective_message.reply_text("Hi!")
+def start(update, context):
+    update.message.reply_text("Hi!")
 
 
-def error(bot, update, err):
+def error(update, context, err):
     logger = logging.getLogger(__name__)
     logger.warning('Update "%s" caused error "%s"', update, err)
 
@@ -35,7 +35,7 @@ def add_handlers(dispatcher):
 if __name__ == "__main__":
     startup.init()
 
-    updater = Updater(config.TOKEN)
+    updater = Updater(config.TOKEN, use_context=True)
 
     add_handlers(updater.dispatcher)
 
@@ -71,44 +71,6 @@ if __name__ == "__main__":
 #     with open("names.txt", mode='r') as namefile:
 #         for name in namefile:
 #             names.add(name.strip())
-#
-#
-# def getMail(msg):
-#     mail = msg.split(u"מייל של ", 1)
-#     if len(mail) == 1:
-#         mail = msg.split(u"מייל", 1)
-#     mail = mail[1]
-#     if len(mail) == 0 or msg == u"מייל של":
-#         return "של מי"
-#     if len(mail.split()) > 4 or len(mail.split()) == 0:
-#         return ""
-#     translator = Translator()
-#     return cleanPunctuation(
-#         translator.translate(mail, src='iw', dest='en').text.lower().replace(" ", "")) + "@g.jct.ac.il"
-#
-#
-# def having(msg):
-#     words = cleanPunctuation(msg).split()
-#     i = 0
-#     for w in words:
-#         if w == u"יש" or w == u"אין":
-#             break
-#         else:
-#             i = i + 1
-#
-#     words = words[i:]
-#
-#     words = [w.replace(u"אין", u"127635~~`;") for w in words]
-#     words = [w.replace(u"יש", u"אין") for w in words]
-#     words = [w.replace(u"127635~~`;", u"יש") for w in words]
-#     words = [w.replace(u"לי", u";;11;;11~234~") for w in words]
-#     words = [w.replace(u"לך", u"לי") for w in words]
-#     words = [w.replace(u";;11;;11~234~", u"לך") for w in words]
-#     return ' '.join(words)
-#
-#
-# def start(bot, update):
-#     update.message.reply_text('')
 #
 #
 # def reply(bot, update):
@@ -160,34 +122,3 @@ if __name__ == "__main__":
 #     pass
 #
 #
-# def main():
-#     # Create the EventHandler and pass it your bot's token.
-#     updater = Updater("551639661:AAFBo2k6AZGqfk4hZKINmgajE8_TGajAt9w")
-#
-#     # Get the dispatcher to register handlers
-#     dp = updater.dispatcher
-#
-#     # on different commands - answer in Telegram
-#     dp.add_handler(CommandHandler("start", start))
-#
-#     # # on non-command i.e message - echo the message on Telegram
-#     dp.add_handler(MessageHandler(Filters.reply, reply))
-#     dp.add_handler(MessageHandler(Filters.text, echo))
-#
-#     # log all errors
-#     dp.add_error_handler(error)
-#
-#     # Init names list
-#     initNamesFile()
-#
-#     # Start the Bot
-#     updater.start_polling()
-#
-#     # Run the bot until the you presses Ctrl-C or the process receives SIGINT,
-#     # SIGTERM or SIGABRT.  This should be used most of the time, since
-#     # start_polling() is non-blocking and will stop the bot gracefully.
-#     updater.idle()
-#
-#
-# if __name__ == '__main__':
-#     main()

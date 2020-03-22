@@ -15,3 +15,4 @@ NAME = 'TeitelBot'
 TOKEN = os.environ.get('TOKEN')
 PORT = os.environ.get('PORT')
 IS_RUN_REMOTE = os.environ.get('IS_RUN_REMOTE')
+CHANCE_OF_RANDOM_RESPONSE = 1.0
