@@ -3,11 +3,11 @@ from random import random
 from util.generic_response_generator import generic_negative_response, generic_answer
 from util.string_utils import punctuation_cleaner, first_index_of_any
 from echo_functions import having_action
+import config
 
 
 def default_action(bot, update):
-    chance_of_random_response = 1.0
-    if random() <= chance_of_random_response:
+    if random() <= config.CHANCE_OF_RANDOM_RESPONSE:
         update.effective_message.reply_text(generic_negative_response())
 
 
@@ -31,8 +31,7 @@ def having_filter(bot, update) -> bool:
 
 def generic_question(bot, update) -> bool:
     if "?" in update.effective_message.text:
-        chance_of_random_response = 1.0
-        if random() <= chance_of_random_response:
+        if random() <= config.CHANCE_OF_RANDOM_RESPONSE:
             update.effective_message.reply_text(generic_answer())
             return True
     return False
