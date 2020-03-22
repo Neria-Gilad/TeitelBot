@@ -19,10 +19,10 @@ def first_index_of_any(lst, array_of_objects):
     return min_index
 
 
-def replace_words(wordList, replacementMap):
+def replace_words(word_list, replacement_map):
     return [
-        w if w not in replacementMap.keys()
-        else replacementMap[w]
-        for w
-        in wordList
+        word if word not in replacement_map.keys()
+        else replacement_map[word]
+        for word
+        in word_list
     ]

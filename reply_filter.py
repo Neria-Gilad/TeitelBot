@@ -1,9 +1,12 @@
+from telegram import Update
+from telegram.ext import CallbackContext
 
 
-def sure_filter(bot, update):
-    if (u"בטוח?" in update.effective_message.text.split()):
-        msg = u"ככה הבנתי"
-        update.effective_message.reply_text(msg)
+def sure_filter(update: Update, context: CallbackContext) -> bool:
+    words = update.effective_message.text.split()
+    if "בטוח?" in words:
+        msg = "ככה הבנתי"
+        update.message.reply_text(msg)
         return True
     return False
 
@@ -17,9 +20,9 @@ filter_list = [
 ]
 
 
-def default_action(bot, update):
-    msg = u'מה הכוונה?'
-    update.effective_message.reply_text(msg)
+def default_action(update: Update, context: CallbackContext) -> bool:
+    msg = 'מה הכוונה?'
+    update.message.reply_text(msg)
 
 
 # just calls all the filters
