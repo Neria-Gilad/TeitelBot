@@ -1,13 +1,17 @@
 from string import punctuation
 
+import googletrans
 
-def punctuation_cleaner(string: str):
+translator = googletrans.Translator()
+
+
+def punctuation_cleaner(string: str) -> str:
     for p in punctuation:
         string = string.replace(p, "")
     return string
 
 
-def first_index_of_any(lst, array_of_objects):
+def first_index_of_any(lst: list, array_of_objects: list) -> int:
     min_index = len(lst) + 1  # out of index
     for obj in array_of_objects:
         try:
@@ -16,13 +20,18 @@ def first_index_of_any(lst, array_of_objects):
             pass
     if min_index == len(lst) + 1:
         raise ValueError('substrings not found')
+
     return min_index
 
 
-def replace_words(word_list, replacement_map):
+def replace_words(words: list, replacement_map: dict) -> list:
     return [
         word if word not in replacement_map.keys()
         else replacement_map[word]
         for word
-        in word_list
+        in words
     ]
+
+
+def translate_to_heb(string_in_english: str) -> str:
+    return translator.translate(string_in_english, src='iw', dest='en').text
