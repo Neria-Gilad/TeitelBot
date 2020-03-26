@@ -18,7 +18,6 @@ generic_universal_truths = [
 
 generic_positive_responses = [
     "בטח!",
-
 ]
 
 generic_negative_responses = [
