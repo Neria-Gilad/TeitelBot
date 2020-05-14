@@ -1,11 +1,14 @@
-from random import random
+from random import random  # TODO replace this with tb_random
+from util.TB_random import tb_choice
 
 from telegram import Update
 from telegram.ext import CallbackContext
 
 from util.generic_response_generator import generic_negative_response, generic_answer
 from util.string_utils import punctuation_cleaner, first_index_of_any
-from echo_functions import having_action, email_action
+from db.significant_words import words_to_repeat_sarcastically
+
+from echo_functions import having_action, email_action, repeat_sarcastically_action
 import config
 
 
@@ -56,6 +59,18 @@ def generic_question(update: Update, context: CallbackContext) -> bool:
     return False
 
 
+def repeat_word_sarcastically_filter(update: Update, context: CallbackContext) -> bool:
+    """
+    checks for significant keywords and repeats one of them sarcastically if found
+    """
+    words = update.effective_message.text.split()
+    significant_words = list(set(words) & set(words_to_repeat_sarcastically))
+    if significant_words:
+        repeat_sarcastically_action(tb_choice(significant_words), update.message.reply_text)
+        return True
+    return False
+
+
 # add any filter to this list.
 # filters always receive bot,update as arguments
 # filters must either return False, or finish the job and return true
@@ -64,6 +79,7 @@ filter_list = [
     email_filter,
     having_filter,
     generic_question,
+    repeat_word_sarcastically_filter,
 ]
 
 

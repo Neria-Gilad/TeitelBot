@@ -1,5 +1,6 @@
 from random import choice
-
+# TODO move lists to db
+# TODO switch to TB_random
 generic_answers = [
     "אני לא מאמין ששאלת את זה",
     "\U0001F914",  # thinking emoji
