@@ -38,8 +38,8 @@ def email_filter(update: Update, context: CallbackContext) -> bool:
     if 'מייל של ' not in msg:
         return False
 
-    full_name = msg.split("מייל של ")[-1]
-
+    full_name = msg.split("מייל של ")[-1]   # this makes it so just מייל של doesn't continue to email_action,
+                                            # however, email_action has a check for מייל של. this is a bug
     is_too_long_name = len(full_name.split()) > 4
     if is_too_long_name:
         return False
