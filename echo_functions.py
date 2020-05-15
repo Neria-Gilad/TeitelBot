@@ -24,9 +24,9 @@ def email_action(raw_msg, name, response):
     response(text)
 
 
-def repeat_sarcastically_action(str, response):
+def repeat_sarcastically_action(string, response):
     """
     for now (2020) sarcastically just means surround with quotes
-    :param str: the string to repeat sarcastically
+    :param string: the string to repeat sarcastically
     """
-    response('"' + str.strip() + '"')
+    response('"' + string.strip() + '"')

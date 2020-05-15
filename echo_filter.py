@@ -1,12 +1,12 @@
 from random import random  # TODO replace this with tb_random
-from util.TB_random import tb_choice
 
 from telegram import Update
 from telegram.ext import CallbackContext
 
+from util.tb_random import tb_choice
 from util.generic_response_generator import generic_negative_response, generic_answer
 from util.string_utils import punctuation_cleaner, first_index_of_any
-from db.significant_words import words_to_repeat_sarcastically
+from constants.significant_words import words_to_repeat_sarcastically
 
 from echo_functions import having_action, email_action, repeat_sarcastically_action
 import config
