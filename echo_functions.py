@@ -22,3 +22,11 @@ def email_action(raw_msg, name, response):
     text = "של מי" if is_empty else generate(name)
 
     response(text)
+
+
+def repeat_sarcastically_action(string, response):
+    """
+    for now (2020) sarcastically just means surround with quotes
+    :param string: the string to repeat sarcastically
+    """
+    response('"' + string.strip() + '"')
