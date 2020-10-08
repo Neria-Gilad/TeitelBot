@@ -1,7 +1,8 @@
 from random import random  # TODO replace this with tb_random
-
 from telegram import Update
 from telegram.ext import CallbackContext
+import requests
+from lxml import html
 
 from util.tb_random import tb_choice
 from util.generic_response_generator import generic_negative_response, generic_answer
@@ -10,6 +11,37 @@ from constants.significant_words import words_to_repeat_sarcastically
 
 from echo_functions import having_action, email_action, repeat_sarcastically_action
 import config
+
+
+def check_number(update: Update, context: CallbackContext):
+    # optimization
+    if update.effective_message.text[0] != '0' and update.effective_message.text[0] != '+':
+        return False
+
+    no_result_text = "מבצע בדיקה ברחבי הרשת..."
+    # access 'api' and parse response
+    try:
+        number_id_page = requests.get('https://call2me.co.il/' + update.effective_message.text, verify=False, headers={'User-Agent':'trustmebro'})
+        tree = html.fromstring(number_id_page.content)
+    except (AttributeError, requests.RequestException):
+        return False
+    number_id_page.close()
+
+    # find result for requested number
+    result = tree.xpath("//div[contains(@class, 'resultData')]")
+    if len(result) < 1:
+        if "BLOCKED" in str(number_id_page.content):
+            update.message.reply_text("חפרת")
+            # keep DOS from denying us as well, so return False but still let users know that they are annoying
+            return False
+        return False
+
+    # check if api has a record of requested number abd return it
+    result_text = result[0].text
+    if result_text != no_result_text:
+        update.message.reply_text(result_text)
+        return True
+    return False
 
 
 def default_action(update: Update, context: CallbackContext):
@@ -76,6 +108,7 @@ def repeat_word_sarcastically_filter(update: Update, context: CallbackContext) -
 # filters must either return False, or finish the job and return true
 # they can send to another filter and return what that filter returned
 filter_list = [
+    check_number,
     email_filter,
     having_filter,
     generic_question,

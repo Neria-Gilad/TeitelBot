@@ -23,7 +23,6 @@ def email_action(raw_msg, name, response):
 
     response(text)
 
-
 def repeat_sarcastically_action(string, response):
     """
     for now (2020) sarcastically just means surround with quotes
