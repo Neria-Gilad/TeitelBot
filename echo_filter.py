@@ -31,9 +31,8 @@ def check_number(update: Update, context: CallbackContext):
     result = tree.xpath("//div[contains(@class, 'resultData')]")
     if len(result) < 1:
         if "BLOCKED" in str(number_id_page.content):
-            update.message.reply_text("חפרת")
             # keep DOS from denying us as well, so return False but still let users know that they are annoying
-            return False
+            update.message.reply_text("חפרת")
         return False
 
     # check if api has a record of requested number and return it
