@@ -36,7 +36,7 @@ def check_number(update: Update, context: CallbackContext):
             return False
         return False
 
-    # check if api has a record of requested number abd return it
+    # check if api has a record of requested number and return it
     result_text = result[0].text
     if result_text != no_result_text:
         update.message.reply_text(result_text)
