@@ -1,6 +1,5 @@
 from random import choice
-# TODO move lists to constants
-# TODO switch to TB_random
+
 generic_answers = [
     "אני לא מאמין ששאלת את זה",
     "\U0001F914",  # thinking emoji
@@ -9,12 +8,10 @@ generic_answers = [
     "אולי",
     "זה מסווג",
     "למה זה חשוב פתאום?",
-
 ]
 
 generic_universal_truths = [
     "מי ששלם עם עצמו, אוהב פיצה",
-
 ]
 
 generic_positive_responses = [
@@ -30,17 +27,17 @@ generic_negative_responses = [
 ]
 
 
-def generic_answer():
+def random_answer():
     return choice(generic_answers)
 
 
-def generic_universal_truth():
+def random_universal_truth():
     return choice(generic_universal_truths)
 
 
-def generic_positive_response():
+def random_positive_response():
     return choice(generic_positive_responses)
 
 
-def generic_negative_response():
+def random_negative_response():
     return choice(generic_negative_responses)
