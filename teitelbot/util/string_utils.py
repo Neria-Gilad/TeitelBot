@@ -1,9 +1,5 @@
 from string import punctuation
 
-import googletrans
-
-translator = googletrans.Translator()
-
 
 def clean_punctuation(string: str) -> str:
     for p in punctuation:
@@ -31,10 +27,6 @@ def replace_words(words: list, replacement_map: dict) -> list:
         for word
         in words
     ]
-
-
-def translate_heb_to_eng(string_in_hebrew: str) -> str:
-    return translator.translate(string_in_hebrew, src='he', dest='en').text
 
 
 def is_true(string: str) -> bool:

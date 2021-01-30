@@ -1,4 +1,7 @@
-from util.string_utils import translate_heb_to_eng, clean_punctuation
+from util.string_utils import clean_punctuation
+from util.translator import Translator
+
+_translator = Translator()
 
 
 def generate(full_name_in_hebrew: str) -> str:
@@ -9,5 +12,5 @@ def generate(full_name_in_hebrew: str) -> str:
 
 
 def _get_translated_name(name: str) -> str:
-    translated_name = translate_heb_to_eng(name).lower()
+    translated_name = _translator.translate(name, src='he', dest='en').lower()
     return clean_punctuation(translated_name.replace(' ', ''))
