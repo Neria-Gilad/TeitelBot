@@ -13,9 +13,9 @@ def possible_actions(text: str) -> List[Action]:
         _check_number: Action.CHECK_NUMBER_ACTION,
         _email: Action.EMAIL_ACTION,
         _having: Action.HAVING_ACTION,
+        _are_you_sure: Action.ARE_YOU_SURE_ACTION,
         _generic_question: Action.GENERIC_QUESTION_ACTION,
         _repeat_sarcastically: Action.REPEAT_SARCASTICALLY_ACTION,
-        _are_you_sure: Action.ARE_YOU_SURE_ACTION,
         _default: Action.DEFAULT_ACTION,
     }
 

@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from random import choice
 from typing import Callable, Any
 
@@ -33,20 +34,20 @@ def respond(text: str) -> str:
 
 
 def get_response(action: Action, text: str) -> str:
-    if action == Action.CHECK_NUMBER_ACTION:
-        return _identify_number_response(text)
-    elif action == Action.EMAIL_ACTION:
-        return _email_response(text)
-    elif action == Action.HAVING_ACTION:
-        return _having_response(text)
-    elif action == Action.GENERIC_QUESTION_ACTION:
-        return _generic_question_response()
-    elif action == Action.REPEAT_SARCASTICALLY_ACTION:
-        return _repeat_word_sarcastically_response(text)
-    elif action == Action.DEFAULT_ACTION:
-        return _default_response()
+    responses = {
+        Action.CHECK_NUMBER_ACTION: _identify_number_response,
+        Action.EMAIL_ACTION: _email_response,
+        Action.HAVING_ACTION: _having_response,
+        Action.ARE_YOU_SURE_ACTION: _assure_response,
+        Action.GENERIC_QUESTION_ACTION: _generic_question_response,
+        Action.REPEAT_SARCASTICALLY_ACTION: _identify_number_response,
+        Action.DEFAULT_ACTION: _default_response,
+    }
 
-    raise ResponseNotExistForAction(action)
+    try:
+        return responses[action](text)
+    except KeyError:
+        raise ResponseNotExistForAction(action)
 
 
 def _identify_number_response(text: str) -> str:
@@ -77,7 +78,7 @@ def _identify_number_response(text: str) -> str:
     raise NoResponseException("number not found")
 
 
-def _default_response() -> str:
+def _default_response(text: str) -> str:
     return generic_response_generator.random_negative_response()
 
 
@@ -89,7 +90,7 @@ def _having_response(text: str) -> str:
         "לך": "לי",
     }
     words = string_utils.clean_punctuation(text).split()
-    filtered_words = words[string_utils.first_index_of_any(words, ["יש", "אין"]) :]
+    filtered_words = words[string_utils.first_index_of_any(words, ["יש", "אין"]):]
 
     return " ".join(string_utils.replace_words(filtered_words, replaces_dict))
 
@@ -102,8 +103,12 @@ def _email_response(text: str) -> str:
     return "של מי" if is_empty else email_generator.generate(full_name)
 
 
-def _generic_question_response() -> str:
+def _generic_question_response(text: str) -> str:
     return generic_response_generator.random_answer()
+
+
+def _assure_response(text: str) -> str:
+    return "ככה הבנתי"
 
 
 def _repeat_word_sarcastically_response(text: str) -> str:
