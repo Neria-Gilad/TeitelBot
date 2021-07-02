@@ -15,19 +15,17 @@ def first_index_of_any(lst: list, array_of_objects: list) -> int:
         except ValueError:
             pass
     if min_index == len(lst) + 1:
-        raise ValueError('substrings not found')
+        raise ValueError("substrings not found")
 
     return min_index
 
 
 def replace_words(words: list, replacement_map: dict) -> list:
     return [
-        word if word not in replacement_map.keys()
-        else replacement_map[word]
-        for word
-        in words
+        word if word not in replacement_map.keys() else replacement_map[word]
+        for word in words
     ]
 
 
 def is_true(string: str) -> bool:
-    return string and (string.lower() in ['true', '1', 't', 'y', 'yes', 'yeah'])
+    return string and (string.lower() in ["true", "1", "t", "y", "yes", "yeah"])

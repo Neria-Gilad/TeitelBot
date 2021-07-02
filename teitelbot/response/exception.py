@@ -4,3 +4,7 @@ class ResponseNotExistForAction(Exception):
 
 class NoResponseException(Exception):
     pass
+
+
+class FailedToRespondException(Exception):
+    pass

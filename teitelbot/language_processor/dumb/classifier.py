@@ -3,13 +3,13 @@ from random import random
 from typing import List
 
 import config
-from constants.significant_words import words_to_repeat_sarcastically
-from response.action import Action
+from language_processor.constants.significant_words import words_to_repeat_sarcastically
+from language_processor.constants.action import Action
 from util import string_utils
 
 
 def possible_actions(text: str) -> List[Action]:
-    classifier_to_action = {
+    classification_to_action = {
         _check_number: Action.CHECK_NUMBER_ACTION,
         _email: Action.EMAIL_ACTION,
         _having: Action.HAVING_ACTION,
@@ -19,12 +19,16 @@ def possible_actions(text: str) -> List[Action]:
         _default: Action.DEFAULT_ACTION,
     }
 
-    return [action for (classifier, action) in classifier_to_action.items() if classifier(text)] or [Action.NONE]
+    return [
+        action
+        for (classification, action) in classification_to_action.items()
+        if classification(text)
+    ] or [Action.NONE]
 
 
 def _email(text: str):
     msg = string_utils.clean_punctuation(text)
-    if 'מייל של ' not in msg:
+    if "מייל של " not in msg:
         return False
 
     full_name = msg.split("מייל של ")[-1]
@@ -32,7 +36,7 @@ def _email(text: str):
 
 
 def _having(text: str):
-    return any(word in ['יש', 'אין'] for word in text.split())
+    return any(word in ["יש", "אין"] for word in text.split())
 
 
 def _repeat_sarcastically(text: str):
@@ -52,5 +56,5 @@ def _are_you_sure(text: str):
 
 
 def _check_number(text: str) -> bool:
-    is_number_regex = r'(?:(?:0)|(?:\+972))\d{8,9}'
+    is_number_regex = r"(?:(?:0)|(?:\+972))\d{8,9}"
     return bool(re.search(is_number_regex, text))

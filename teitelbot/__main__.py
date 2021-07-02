@@ -7,7 +7,7 @@ from client.telegram_client import TelegramClient
 def main():
     startup.init()
 
-    client = TelegramClient(response.reply.on_message, response.quote.on_message)
+    client = TelegramClient(response.on_message, response.on_quote)
     client.block_loop()
 
 

@@ -1,4 +1,2 @@
-from . import reply
-from . import quote
-
-__all__ = [reply, quote]
+from .response import on_message
+from .response import on_quote

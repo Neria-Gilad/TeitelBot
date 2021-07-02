@@ -5,27 +5,31 @@ from typing import Callable, Any
 import requests
 from lxml import html
 
-from constants.significant_words import words_to_repeat_sarcastically
-from response import classifier
-from response.action import Action
-from response.exception import ResponseNotExistForAction, NoResponseException
+from . import classifier
+from language_processor.constants.significant_words import words_to_repeat_sarcastically
+from language_processor.constants.action import Action
+from response.exception import (
+    ResponseNotExistForAction,
+    NoResponseException,
+    FailedToRespondException,
+)
 from util import string_utils
-from response.reply.service import email_generator, generic_response_generator
+from ..util import generic_response_generator, email_generator
 
 LOGGER = logging.getLogger(__name__)
 
 
-def on_message(text: str, reply: Callable[[str], Any]) -> None:
+def respond(text: str) -> str:
     actions = classifier.possible_actions(text)
     for action in actions:
         try:
-            response = get_response(action, text)
-            reply(response)
-            break
+            return get_response(action, text)
         except ResponseNotExistForAction as e:
             LOGGER.error(e)
         except NoResponseException as e:
             LOGGER.info(e)
+
+    raise FailedToRespondException(text)
 
 
 def get_response(action: Action, text: str) -> str:
@@ -48,10 +52,14 @@ def get_response(action: Action, text: str) -> str:
 def _identify_number_response(text: str) -> str:
     no_result_text = "מבצע בדיקה ברחבי הרשת..."
     try:
-        number_id_page = requests.get(f'https://call2me.co.il/{text}',
-                                      verify=False,
-                                      headers={'User-Agent': 'trust_me_bro'})
-        result = html.fromstring(number_id_page.content).xpath("//div[contains(@class, 'resultData')]")
+        number_id_page = requests.get(
+            f"https://call2me.co.il/{text}",
+            verify=False,
+            headers={"User-Agent": "trust_me_bro"},
+        )
+        result = html.fromstring(number_id_page.content).xpath(
+            "//div[contains(@class, 'resultData')]"
+        )
     except requests.RequestException as e:
         raise NoResponseException(f"error occurred while accessing call2me: {e}")
     except AttributeError:
@@ -75,15 +83,15 @@ def _default_response() -> str:
 
 def _having_response(text: str) -> str:
     replaces_dict = {
-        'אין': 'יש',
-        'יש': 'אין',
-        'לי': 'לך',
-        'לך': 'לי',
+        "אין": "יש",
+        "יש": "אין",
+        "לי": "לך",
+        "לך": "לי",
     }
     words = string_utils.clean_punctuation(text).split()
-    filtered_words = words[string_utils.first_index_of_any(words, ['יש', 'אין']):]
+    filtered_words = words[string_utils.first_index_of_any(words, ["יש", "אין"]) :]
 
-    return ' '.join(string_utils.replace_words(filtered_words, replaces_dict))
+    return " ".join(string_utils.replace_words(filtered_words, replaces_dict))
 
 
 def _email_response(text: str) -> str:

@@ -9,4 +9,6 @@ class GoogleTranslate:
         try:
             return self._translator.translate(text, src=src, dest=dest).text
         except (KeyError, AttributeError, ValueError) as e:
-            raise RuntimeError("google translate package is unstable and is probably  broken again.", e)
+            raise RuntimeError(
+                "google translate package is unstable and is probably  broken again.", e
+            )
