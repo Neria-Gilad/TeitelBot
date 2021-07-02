@@ -15,16 +15,17 @@ from response.exception import (
     FailedToRespondException,
 )
 from util import string_utils
+from ..parsed_message import ParsedResponse
 from ..util import generic_response_generator, email_generator
 
 LOGGER = logging.getLogger(__name__)
 
 
-def respond(text: str) -> str:
+def respond(text: str) -> ParsedResponse:
     actions = classifier.possible_actions(text)
     for action in actions:
         try:
-            return get_response(action, text)
+            return ParsedResponse(get_response(action, text), 1)
         except ResponseNotExistForAction as e:
             LOGGER.error(e)
         except NoResponseException as e:
