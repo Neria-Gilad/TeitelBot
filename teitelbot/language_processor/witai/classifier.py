@@ -4,7 +4,6 @@ from wit import Wit
 
 import config
 from language_processor.constants.action import Action
-from language_processor.parsed_message import ParsedMessage
 
 _client = Wit(access_token=config.WitAi.Client.API_KEY)
 
@@ -16,9 +15,9 @@ _intent_actions["pointless_question"] = Action.GENERIC_QUESTION_ACTION
 #_intent_actions["information_query"] = Action.DEFAULT_ACTION
 
 
-class WitParsedMessage(ParsedMessage):
+class WitParsedMessage:
     def __init__(self, wit_response: dict):
-        super().__init__(wit_response["text"], -1)
+        self.confidence = -1
         self._parse(wit_response)
 
     def _parse(self, wit_response: dict):

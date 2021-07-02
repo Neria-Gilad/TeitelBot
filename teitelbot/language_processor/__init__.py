@@ -1,7 +1,7 @@
 import logging
 
 from . import witai, dumb
-from .parsed_message import ParsedResponse
+from .parsed_response import ParsedResponse
 
 language_processors = [witai, dumb]
 

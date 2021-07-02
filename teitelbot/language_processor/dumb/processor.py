@@ -15,7 +15,7 @@ from response.exception import (
     FailedToRespondException,
 )
 from util import string_utils
-from ..parsed_message import ParsedResponse
+from ..parsed_response import ParsedResponse
 from ..util import generic_response_generator, email_generator
 
 LOGGER = logging.getLogger(__name__)
