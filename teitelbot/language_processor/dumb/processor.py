@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict
 from random import choice
-from typing import Callable, Any
+from typing import Callable, Any, Final
 
 import requests
 from lxml import html
@@ -18,7 +18,7 @@ from util import string_utils
 from ..parsed_response import ParsedResponse
 from ..util import generic_response_generator, email_generator
 
-LOGGER = logging.getLogger(__name__)
+logger: Final = logging.getLogger(__name__)
 
 
 def respond(text: str) -> ParsedResponse:
@@ -27,9 +27,9 @@ def respond(text: str) -> ParsedResponse:
         try:
             return ParsedResponse(get_response(action, text), 1)
         except ResponseNotExistForAction as e:
-            LOGGER.error(e)
+            logger.error(e)
         except NoResponseException as e:
-            LOGGER.info(e)
+            logger.info(e)
 
     raise FailedToRespondException(text)
 

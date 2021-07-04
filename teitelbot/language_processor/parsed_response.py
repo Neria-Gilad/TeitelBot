@@ -1,4 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class ParsedResponse:
-    def __init__(self, response_text: str, confidence: float):
-        self.text = response_text
-        self.confidence = confidence
+    text: str
+    confidence: float

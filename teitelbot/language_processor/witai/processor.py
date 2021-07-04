@@ -1,12 +1,13 @@
 import logging
+from typing import Final
 
 from response.exception import ResponseNotExistForAction, NoResponseException
 from . import classifier
-from .classifier import WitParsedMessage
+from .types import WitParsedMessage
 from ..parsed_response import ParsedResponse
 from ..constants.action import Action
 
-LOGGER = logging.getLogger(__name__)
+logger: Final = logging.getLogger(__name__)
 
 
 def respond(text: str) -> ParsedResponse:
@@ -16,9 +17,9 @@ def respond(text: str) -> ParsedResponse:
     try:
         return ParsedResponse(get_response(parsed_message.action, text), parsed_message.confidence)
     except ResponseNotExistForAction as e:
-        LOGGER.error(e)
+        logger.error(e)
     except NoResponseException as e:
-        LOGGER.info(e)
+        logger.info(e)
 
     return ParsedResponse("", -1)
 

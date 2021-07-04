@@ -1,11 +1,11 @@
 import logging
-from typing import Callable, Any
+from typing import Callable, Any, Final
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 import config
 
-LOGGER = logging.getLogger(__name__)
+logger: Final = logging.getLogger(__name__)
 
 
 class TelegramClient:
@@ -49,7 +49,7 @@ class TelegramClient:
         dispatcher.add_handler(MessageHandler(Filters.reply, on_reply))
         dispatcher.add_handler(MessageHandler(Filters.text, on_text))
         dispatcher.add_error_handler(
-            lambda update, _, err: LOGGER.error(
+            lambda update, _, err: logger.error(
                 'Update "%s" caused error "%s"', update, err
             )
         )
