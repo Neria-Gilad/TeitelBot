@@ -1,3 +1,4 @@
+from typing import Union, Optional
 from dataclasses import dataclass, field
 
 
@@ -26,11 +27,9 @@ class Entity:
 @dataclass
 class WitParsedMessage:
     text: str
-    intents: list[Intent]
-    entities: dict[list[Entity]]
+    intents: list[Union[Intent, dict]]
+    entities: dict[str, list[Union[Entity, dict]]]
     traits: dict
-    main_intent: Intent = field(init=False)
-    confidence: float = field(default=-1)
 
     def __post_init__(self):
         if not self.intents:
@@ -38,26 +37,9 @@ class WitParsedMessage:
             return
 
         self.intents = [Intent(**intent) for intent in self.intents]
-        self.main_intent = self.intents[0]
-        self.confidence = self.main_intent.confidence
-
         self.entities = {entity_list_name: [
                 Entity(**entity) for entity in entity_list
             ]
             for entity_list_name, entity_list in self.entities.items()
         }
 
-    # def __init__(self, wit_response: wit_response_struct):
-    #     self.confidence = -1
-    #     self._parse(wit_response)
-    #
-    # def _parse(self, wit_response: wit_response_struct):
-    #     self.message_text = wit_response["text"]
-    #     intents: list = wit_response["intents"]
-    #     if not intents:
-    #         # no point responding if there is no intent to the query
-    #         return
-    #     chosen_intent: dict = intents[0]
-    #     self.action = _intent_actions[chosen_intent["name"]]
-    #     self.confidence = chosen_intent["confidence"]
-    #     self.wit_entities: dict = wit_response["entities"]

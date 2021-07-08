@@ -15,17 +15,17 @@ from response.exception import (
     FailedToRespondException,
 )
 from util import string_utils
-from ..parsed_response import ParsedResponse
+from ..nlp_types import WeightedResponse
 from ..util import generic_response_generator, email_generator
 
 logger: Final = logging.getLogger(__name__)
 
 
-def respond(text: str) -> ParsedResponse:
+def respond(text: str) -> WeightedResponse:
     actions = classifier.possible_actions(text)
-    for action in actions:
+    for weighted_action in actions:
         try:
-            return ParsedResponse(get_response(action, text), 1)
+            return WeightedResponse(get_response(weighted_action.action, text), 1)
         except ResponseNotExistForAction as e:
             logger.error(e)
         except NoResponseException as e:

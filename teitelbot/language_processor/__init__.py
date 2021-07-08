@@ -2,7 +2,7 @@ import logging
 from typing import Final
 
 from . import witai, dumb
-from .parsed_response import ParsedResponse
+from .nlp_types import WeightedResponse
 
 language_processors = [witai, dumb]
 
@@ -13,8 +13,8 @@ class LanguageProcessor:
     @staticmethod
     def respond(message_raw_text: str) -> str:
         for processor in language_processors:
-            response: ParsedResponse = processor.respond(message_raw_text)
-            if 0.8 < response.confidence:
+            response: WeightedResponse = processor.respond(message_raw_text)
+            if response.text is not None and response.confidence > 0.8:
                 return response.text
 
         logger.critical(f"No processor could handle the message: {message_raw_text}")

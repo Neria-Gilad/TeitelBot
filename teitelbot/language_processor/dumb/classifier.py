@@ -5,10 +5,11 @@ from typing import List
 import config
 from language_processor.constants.significant_words import words_to_repeat_sarcastically
 from language_processor.constants.action import Action
+from language_processor.nlp_types import WeightedAction
 from util import string_utils
 
 
-def possible_actions(text: str) -> List[Action]:
+def possible_actions(text: str) -> List[WeightedAction]:
     classification_to_action = {
         _check_number: Action.CHECK_NUMBER_ACTION,
         _email: Action.EMAIL_ACTION,
@@ -20,7 +21,7 @@ def possible_actions(text: str) -> List[Action]:
     }
 
     return [
-        action
+        WeightedAction(action, 1)
         for (classification, action) in classification_to_action.items()
         if classification(text)
     ] or [Action.NONE]
